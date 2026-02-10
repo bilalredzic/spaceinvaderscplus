@@ -1,4 +1,4 @@
-***Space Invaders UML Summary
+# **Space Invaders UML Summary**
 This design plans to use a layered, object-oriented architecture so that each class has one clear responsibility and the game remains maintainable as features grow. Engine owns the game loop (input->update->render) and SDL runtime context. Game flow is modeled with Scene states (such as TitleScene (required), PlayScene, and CreditsScene (required)), so menu logic never mixes with gameplay logic. This makes transitions explicit too. 
 
 Gameplay entities inherit from GameObject, but behavior is mostly added through Component composition (Transform, Sprite, Collider, Velocity, Health, Weapon). This makes it so that deep inheritance isn't used, and also lets us reuse behavior across entities like players, enemies, bullets and barriers. PlayerShip, Enemy, Projecticle, represent different identities, which is why they are not reusable, as reusable mechanics stay in components.
