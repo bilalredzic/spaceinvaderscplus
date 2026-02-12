@@ -1,0 +1,8 @@
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles/spaceinvaders.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles/edit_cache.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles/rebuild_cache.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/CMakeFiles/SDL3-shared.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/CMakeFiles/SDL3_test.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/CMakeFiles/SDL_uclibc.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/CMakeFiles/edit_cache.dir
+/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/CMakeFiles/rebuild_cache.dir
