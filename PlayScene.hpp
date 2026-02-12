@@ -7,10 +7,15 @@ class PlayScene : public Scene {
     public:
         ~PlayScene() override = default;
 
+        // Called when gameplay starts.
         void enter() override;
+        // Handles gameplay input.
         void handleInput() override;
+        // Updates gameplay state.
         void update(float dt) override;
+        // Renders gameplay scene.
         void render(SDL_Renderer* renderer) override;
+        // Called when leaving gameplay.
         void exit() override;
 
     private:
