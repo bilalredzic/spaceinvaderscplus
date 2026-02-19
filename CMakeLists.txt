@@ -20,6 +20,8 @@ add_executable(spaceinvaders WIN32
     TitleScene.cpp
     PlayScene.cpp
     CreditScene.cpp
+    Player.cpp
+    GameObject.cpp
 )
 
 # Link SDL3 to the game.

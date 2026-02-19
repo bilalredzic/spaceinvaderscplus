@@ -2,6 +2,8 @@
 #define     __PLAY_SCENE__
 
 #include "Scene.hpp"
+#include "Player.hpp"
+#include <vector>
 
 class PlayScene : public Scene {
     public:
@@ -19,7 +21,8 @@ class PlayScene : public Scene {
         void exit() override;
 
     private:
-
+        std::vector<GameObject*> objects;
+        Player player;
 };
 
 

@@ -193,6 +193,30 @@ CreditScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s
 .PHONY : CreditScene.cpp.s
 
+GameObject.o: GameObject.cpp.o
+.PHONY : GameObject.o
+
+# target to build an object file
+GameObject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/GameObject.cpp.o
+.PHONY : GameObject.cpp.o
+
+GameObject.i: GameObject.cpp.i
+.PHONY : GameObject.i
+
+# target to preprocess a source file
+GameObject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/GameObject.cpp.i
+.PHONY : GameObject.cpp.i
+
+GameObject.s: GameObject.cpp.s
+.PHONY : GameObject.s
+
+# target to generate assembly for a file
+GameObject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/GameObject.cpp.s
+.PHONY : GameObject.cpp.s
+
 PlayScene.o: PlayScene.cpp.o
 .PHONY : PlayScene.o
 
@@ -216,6 +240,30 @@ PlayScene.s: PlayScene.cpp.s
 PlayScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/PlayScene.cpp.s
 .PHONY : PlayScene.cpp.s
+
+Player.o: Player.cpp.o
+.PHONY : Player.o
+
+# target to build an object file
+Player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Player.cpp.o
+.PHONY : Player.cpp.o
+
+Player.i: Player.cpp.i
+.PHONY : Player.i
+
+# target to preprocess a source file
+Player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Player.cpp.i
+.PHONY : Player.cpp.i
+
+Player.s: Player.cpp.s
+.PHONY : Player.s
+
+# target to generate assembly for a file
+Player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Player.cpp.s
+.PHONY : Player.cpp.s
 
 TitleScene.o: TitleScene.cpp.o
 .PHONY : TitleScene.o
@@ -304,9 +352,15 @@ help:
 	@echo "... CreditScene.o"
 	@echo "... CreditScene.i"
 	@echo "... CreditScene.s"
+	@echo "... GameObject.o"
+	@echo "... GameObject.i"
+	@echo "... GameObject.s"
 	@echo "... PlayScene.o"
 	@echo "... PlayScene.i"
 	@echo "... PlayScene.s"
+	@echo "... Player.o"
+	@echo "... Player.i"
+	@echo "... Player.s"
 	@echo "... TitleScene.o"
 	@echo "... TitleScene.i"
 	@echo "... TitleScene.s"

@@ -142,13 +142,43 @@ CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/CreditScene.cpp -o CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s
 
+CMakeFiles/spaceinvaders.dir/Player.cpp.o: CMakeFiles/spaceinvaders.dir/flags.make
+CMakeFiles/spaceinvaders.dir/Player.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.cpp
+CMakeFiles/spaceinvaders.dir/Player.cpp.o: CMakeFiles/spaceinvaders.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/spaceinvaders.dir/Player.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spaceinvaders.dir/Player.cpp.o -MF CMakeFiles/spaceinvaders.dir/Player.cpp.o.d -o CMakeFiles/spaceinvaders.dir/Player.cpp.o -c /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.cpp
+
+CMakeFiles/spaceinvaders.dir/Player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spaceinvaders.dir/Player.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.cpp > CMakeFiles/spaceinvaders.dir/Player.cpp.i
+
+CMakeFiles/spaceinvaders.dir/Player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spaceinvaders.dir/Player.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.cpp -o CMakeFiles/spaceinvaders.dir/Player.cpp.s
+
+CMakeFiles/spaceinvaders.dir/GameObject.cpp.o: CMakeFiles/spaceinvaders.dir/flags.make
+CMakeFiles/spaceinvaders.dir/GameObject.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.cpp
+CMakeFiles/spaceinvaders.dir/GameObject.cpp.o: CMakeFiles/spaceinvaders.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/spaceinvaders.dir/GameObject.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spaceinvaders.dir/GameObject.cpp.o -MF CMakeFiles/spaceinvaders.dir/GameObject.cpp.o.d -o CMakeFiles/spaceinvaders.dir/GameObject.cpp.o -c /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.cpp
+
+CMakeFiles/spaceinvaders.dir/GameObject.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spaceinvaders.dir/GameObject.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.cpp > CMakeFiles/spaceinvaders.dir/GameObject.cpp.i
+
+CMakeFiles/spaceinvaders.dir/GameObject.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spaceinvaders.dir/GameObject.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.cpp -o CMakeFiles/spaceinvaders.dir/GameObject.cpp.s
+
 # Object files for target spaceinvaders
 spaceinvaders_OBJECTS = \
 "CMakeFiles/spaceinvaders.dir/main.cpp.o" \
 "CMakeFiles/spaceinvaders.dir/engine.cpp.o" \
 "CMakeFiles/spaceinvaders.dir/TitleScene.cpp.o" \
 "CMakeFiles/spaceinvaders.dir/PlayScene.cpp.o" \
-"CMakeFiles/spaceinvaders.dir/CreditScene.cpp.o"
+"CMakeFiles/spaceinvaders.dir/CreditScene.cpp.o" \
+"CMakeFiles/spaceinvaders.dir/Player.cpp.o" \
+"CMakeFiles/spaceinvaders.dir/GameObject.cpp.o"
 
 # External object files for target spaceinvaders
 spaceinvaders_EXTERNAL_OBJECTS =
@@ -158,11 +188,13 @@ spaceinvaders: CMakeFiles/spaceinvaders.dir/engine.cpp.o
 spaceinvaders: CMakeFiles/spaceinvaders.dir/TitleScene.cpp.o
 spaceinvaders: CMakeFiles/spaceinvaders.dir/PlayScene.cpp.o
 spaceinvaders: CMakeFiles/spaceinvaders.dir/CreditScene.cpp.o
+spaceinvaders: CMakeFiles/spaceinvaders.dir/Player.cpp.o
+spaceinvaders: CMakeFiles/spaceinvaders.dir/GameObject.cpp.o
 spaceinvaders: CMakeFiles/spaceinvaders.dir/build.make
 spaceinvaders: libSDL3.0.dylib
 spaceinvaders: /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/src/dynapi/SDL_dynapi.sym
 spaceinvaders: CMakeFiles/spaceinvaders.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable spaceinvaders"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable spaceinvaders"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/spaceinvaders.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
