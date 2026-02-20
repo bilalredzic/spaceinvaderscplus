@@ -1,6 +1,6 @@
 CMakeFiles/spaceinvaders.dir/main.cpp.o: \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/main.cpp \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/engine.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Engine.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_stdinc.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_platform_defines.h \
@@ -966,4 +966,7 @@ CMakeFiles/spaceinvaders.dir/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/temp_value.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__split_buffer \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/TitleScene.hpp \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Scene.hpp
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Scene.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/PlayScene.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.hpp

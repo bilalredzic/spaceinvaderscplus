@@ -193,6 +193,30 @@ CreditScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s
 .PHONY : CreditScene.cpp.s
 
+Engine.o: Engine.cpp.o
+.PHONY : Engine.o
+
+# target to build an object file
+Engine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Engine.cpp.o
+.PHONY : Engine.cpp.o
+
+Engine.i: Engine.cpp.i
+.PHONY : Engine.i
+
+# target to preprocess a source file
+Engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Engine.cpp.i
+.PHONY : Engine.cpp.i
+
+Engine.s: Engine.cpp.s
+.PHONY : Engine.s
+
+# target to generate assembly for a file
+Engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Engine.cpp.s
+.PHONY : Engine.cpp.s
+
 GameObject.o: GameObject.cpp.o
 .PHONY : GameObject.o
 
@@ -289,30 +313,6 @@ TitleScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/TitleScene.cpp.s
 .PHONY : TitleScene.cpp.s
 
-engine.o: engine.cpp.o
-.PHONY : engine.o
-
-# target to build an object file
-engine.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/engine.cpp.o
-.PHONY : engine.cpp.o
-
-engine.i: engine.cpp.i
-.PHONY : engine.i
-
-# target to preprocess a source file
-engine.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/engine.cpp.i
-.PHONY : engine.cpp.i
-
-engine.s: engine.cpp.s
-.PHONY : engine.s
-
-# target to generate assembly for a file
-engine.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/engine.cpp.s
-.PHONY : engine.cpp.s
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -352,6 +352,9 @@ help:
 	@echo "... CreditScene.o"
 	@echo "... CreditScene.i"
 	@echo "... CreditScene.s"
+	@echo "... Engine.o"
+	@echo "... Engine.i"
+	@echo "... Engine.s"
 	@echo "... GameObject.o"
 	@echo "... GameObject.i"
 	@echo "... GameObject.s"
@@ -364,9 +367,6 @@ help:
 	@echo "... TitleScene.o"
 	@echo "... TitleScene.i"
 	@echo "... TitleScene.s"
-	@echo "... engine.o"
-	@echo "... engine.i"
-	@echo "... engine.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

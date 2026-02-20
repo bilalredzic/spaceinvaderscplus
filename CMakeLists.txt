@@ -16,7 +16,7 @@ add_subdirectory(SDL EXCLUDE_FROM_ALL)
 # Add all .cpp files that should be compiled into the game.
 add_executable(spaceinvaders WIN32
     main.cpp
-    engine.cpp
+    Engine.cpp
     TitleScene.cpp
     PlayScene.cpp
     CreditScene.cpp

@@ -11,8 +11,11 @@ class Player : public GameObject {
 
         void update(float dt) override;
         void render(SDL_Renderer* renderer) override;
-
-
+        
+        void moveLeft(float dt);
+        void moveRight(float dt);
+    private:
+        float speed = 300.0f;
 
 };
 
