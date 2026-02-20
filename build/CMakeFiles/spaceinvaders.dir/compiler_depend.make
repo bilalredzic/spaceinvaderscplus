@@ -1063,6 +1063,7 @@ CMakeFiles/spaceinvaders.dir/Engine.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/sp
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdint.h \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Engine.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_assert.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_asyncio.h \
@@ -1123,8 +1124,7 @@ CMakeFiles/spaceinvaders.dir/Engine.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/sp
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_tray.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_version.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_video.h \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Scene.hpp \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/engine.hpp
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Scene.hpp
 
 CMakeFiles/spaceinvaders.dir/GameObject.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/Availability.h \
@@ -3708,8 +3708,6 @@ CMakeFiles/spaceinvaders.dir/main.cpp.o: /Users/bilalredzic/gvsu/cis376/c++/spac
 /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/PlayScene.hpp:
 
 /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.hpp:
-
-/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/engine.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/xlocale/_wctype.h:
 

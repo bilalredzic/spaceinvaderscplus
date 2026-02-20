@@ -26,6 +26,8 @@ class PlayScene : public Scene {
         std::vector<GameObject*> objects;
         std::vector<Projectile*> projectiles;
         Player player;
+        float shootCooldown = 0.12f;
+        float shootTimer = 0.0f;
 };
 
 

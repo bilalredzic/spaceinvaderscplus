@@ -1,6 +1,6 @@
 CMakeFiles/spaceinvaders.dir/Engine.cpp.o: \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Engine.cpp \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/engine.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Engine.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_stdinc.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_platform_defines.h \

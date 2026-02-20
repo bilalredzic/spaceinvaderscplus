@@ -1,4 +1,4 @@
-#include "engine.hpp"
+#include "Engine.hpp"
 #include "Scene.hpp"
 
 #include <SDL3/SDL.h>
@@ -61,7 +61,7 @@ bool Engine::init() {
 	}
 
 	// Gotta draw somewhere....
-	window = SDL_CreateWindow("RGB Color Cycle", 800, 600, SDL_WINDOW_FULLSCREEN);
+	window = SDL_CreateWindow("RGB Color Cycle", 800, 600, 0);
 
 	if (!window) {
 		SDL_Log("SDL_CreateWindow failed: %s", SDL_GetError());

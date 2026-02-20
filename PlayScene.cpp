@@ -1,5 +1,7 @@
 #include "PlayScene.hpp"
 #include "Engine.hpp"
+#include <SDL3/SDL_keyboard.h>
+
 
 // Initialize gameplay state/resources here.
 void PlayScene::enter() {
@@ -10,14 +12,15 @@ void PlayScene::enter() {
 // Read keys/buttons that belong to gameplay.
 void PlayScene::handleInput() {
     const float dt = targetFrameTime/1000.0f; // ms-> seconds
-    size_t length = Engine::keyEvents.size();
-    for (size_t i = 0; i< length; i++) {
-        if (Engine::keyEvents[i].key.key == SDLK_A) {
-            player.moveLeft(dt);
-        } else if (Engine::keyEvents[i].key.key == SDLK_D) {
-            player.moveRight(dt);
-        } else if (Engine::keyEvents[i].key.key == SDLK_SPACE) {
-            Projectile* p = new Projectile();
+    const bool* keys = SDL_GetKeyboardState(nullptr);
+
+    if (keys[SDL_SCANCODE_A]) player.moveLeft(dt);
+    if (keys[SDL_SCANCODE_D]) player.moveRight(dt);
+    if (keys[SDL_SCANCODE_W]) player.moveUp(dt);
+    if (keys[SDL_SCANCODE_S]) player.moveDown(dt);
+
+    if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
+        Projectile* p = new Projectile();
             
             const SDL_FRect& pr = player.getRect();
             p->setSize(6.0f, 14.0f);
@@ -25,8 +28,23 @@ void PlayScene::handleInput() {
 
             projectiles.push_back(p);
             objects.push_back(p);
+            
+            shootTimer = shootCooldown;
         }
-    }
+    
+
+    // for (size_t i = 0; i< Engine::keyEvents.size(); i++) {
+    //     if (Engine::keyEvents[i].key.key == SDLK_SPACE) {
+    //         Projectile* p = new Projectile();
+            
+    //         const SDL_FRect& pr = player.getRect();
+    //         p->setSize(6.0f, 14.0f);
+    //         p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
+
+    //         projectiles.push_back(p);
+    //         objects.push_back(p);
+    //     }
+    // }
 };
 // Update gameplay logic here.
 void PlayScene::update(float dt) {
@@ -52,6 +70,9 @@ void PlayScene::update(float dt) {
             i++;
         }
     }
+
+    shootTimer -= dt;
+    if (shootTimer < 0.0f) shootTimer = 0.0f;
 };
 
 // Draw gameplay objects here.
