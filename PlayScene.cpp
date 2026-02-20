@@ -2,6 +2,15 @@
 #include "Engine.hpp"
 #include <SDL3/SDL_keyboard.h>
 
+#include <random>
+
+static bool overlaps(const SDL_FRect& a, const SDL_FRect& b) {
+    if (a.x + a.w <= b.x) return false;
+    if (b.x + b.w <= a.x) return false;
+    if (a.y + a.h <= b.y) return false;
+    if (b.y + b.h <= a.y) return false;
+    return true;
+}
 
 // Initialize gameplay state/resources here.
 void PlayScene::enter() {
@@ -48,11 +57,29 @@ void PlayScene::handleInput() {
 };
 // Update gameplay logic here.
 void PlayScene::update(float dt) {
-    size_t length = this->objects.size();
-    for (size_t i = 0; i < length; i++) {
+    for (size_t i = 0; i < objects.size(); i++) {
         if (this->objects[i]->isActive())
             this->objects[i]->update(dt);
         } 
+    
+    for (size_t i = 0; i < projectiles.size(); i++) {
+        if (!projectiles[i]->isActive()) continue;
+
+        const SDL_FRect& pr = projectiles[i]->getRect();
+
+        for (size_t j = 0; j < enemies.size(); j++) {
+            if (!enemies[j]->isActive()) continue;
+
+            const SDL_FRect& er = enemies[j]->getRect();
+
+            if (overlaps(pr, er)) {
+                projectiles[i]->setActive(false);
+                enemies[j]->setActive(false);
+                break;
+            }
+        }
+    }
+    
     //no i++ in loop because we only increment when we don't erase
     for (size_t i = 0; i<projectiles.size();) {
         if (!projectiles[i]->isActive()){
@@ -71,8 +98,46 @@ void PlayScene::update(float dt) {
         }
     }
 
+    for (size_t i = 0; i < enemies.size();) {
+    if (!enemies[i]->isActive()) {
+        GameObject* dead = enemies[i];
+
+        for (size_t j = 0; j < objects.size(); j++) {
+            if (objects[j] == dead) {
+                objects.erase(objects.begin() + j);
+                break;
+            }
+        }
+
+        delete enemies[i];
+        enemies.erase(enemies.begin() + i);
+    } else {
+        i++;
+    }
+    }
+
     shootTimer -= dt;
     if (shootTimer < 0.0f) shootTimer = 0.0f;
+    enemySpawnTimer -=dt;
+    if (enemySpawnTimer <= 0.0f) {
+        static std::mt19937 rng(std::random_device{}());
+        float enemyW = 40.0f;
+        float enemyH = 20.0f;
+        float spawnY = -enemyH;
+
+        std::uniform_real_distribution<float> xDist(0.0f, 800.0f - enemyW);
+        float spawnX = xDist(rng);
+
+        Enemy* e = new Enemy();
+
+        e->setSize(enemyW, enemyH);
+        e->setPosition(spawnX, spawnY);
+        enemies.push_back(e);
+        objects.push_back(e);
+
+        enemySpawnTimer = enemySpawnCooldown;
+    }
+
 };
 
 // Draw gameplay objects here.
@@ -89,7 +154,11 @@ void PlayScene::exit() {
     for (size_t i = 0; i < projectiles.size(); i++) {
         delete projectiles[i];
     }
+    for (size_t i = 0; i<enemies.size(); i++) {
+        delete enemies[i];
+    }
     projectiles.clear();
     objects.clear();
+    enemies.clear();
 
 };

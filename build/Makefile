@@ -193,6 +193,30 @@ CreditScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/CreditScene.cpp.s
 .PHONY : CreditScene.cpp.s
 
+Enemy.o: Enemy.cpp.o
+.PHONY : Enemy.o
+
+# target to build an object file
+Enemy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Enemy.cpp.o
+.PHONY : Enemy.cpp.o
+
+Enemy.i: Enemy.cpp.i
+.PHONY : Enemy.i
+
+# target to preprocess a source file
+Enemy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Enemy.cpp.i
+.PHONY : Enemy.cpp.i
+
+Enemy.s: Enemy.cpp.s
+.PHONY : Enemy.s
+
+# target to generate assembly for a file
+Enemy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/spaceinvaders.dir/build.make CMakeFiles/spaceinvaders.dir/Enemy.cpp.s
+.PHONY : Enemy.cpp.s
+
 Engine.o: Engine.cpp.o
 .PHONY : Engine.o
 
@@ -376,6 +400,9 @@ help:
 	@echo "... CreditScene.o"
 	@echo "... CreditScene.i"
 	@echo "... CreditScene.s"
+	@echo "... Enemy.o"
+	@echo "... Enemy.i"
+	@echo "... Enemy.s"
 	@echo "... Engine.o"
 	@echo "... Engine.i"
 	@echo "... Engine.s"

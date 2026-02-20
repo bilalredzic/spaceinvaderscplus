@@ -23,6 +23,7 @@ add_executable(spaceinvaders WIN32
     Player.cpp
     GameObject.cpp
     Projectile.cpp
+    Enemy.cpp
 )
 
 # Link SDL3 to the game.

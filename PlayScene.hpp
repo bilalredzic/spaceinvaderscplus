@@ -4,6 +4,7 @@
 #include "Scene.hpp"
 #include "Player.hpp"
 #include "Projectile.hpp"
+#include "Enemy.hpp"
 #include <vector>
 
 
@@ -25,9 +26,12 @@ class PlayScene : public Scene {
     private:
         std::vector<GameObject*> objects;
         std::vector<Projectile*> projectiles;
+        std::vector<Enemy*> enemies;
         Player player;
         float shootCooldown = 0.12f;
         float shootTimer = 0.0f;
+        float enemySpawnCooldown = 0.8f;
+        float enemySpawnTimer = 0.0f;
 };
 
 

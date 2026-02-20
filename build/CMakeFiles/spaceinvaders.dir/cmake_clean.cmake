@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/spaceinvaders.dir/CreditScene.cpp.o"
   "CMakeFiles/spaceinvaders.dir/CreditScene.cpp.o.d"
+  "CMakeFiles/spaceinvaders.dir/Enemy.cpp.o"
+  "CMakeFiles/spaceinvaders.dir/Enemy.cpp.o.d"
   "CMakeFiles/spaceinvaders.dir/Engine.cpp.o"
   "CMakeFiles/spaceinvaders.dir/Engine.cpp.o.d"
   "CMakeFiles/spaceinvaders.dir/GameObject.cpp.o"
