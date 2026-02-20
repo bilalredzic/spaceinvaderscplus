@@ -969,4 +969,5 @@ CMakeFiles/spaceinvaders.dir/main.cpp.o: \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Scene.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/PlayScene.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.hpp \
-  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.hpp
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Projectile.hpp

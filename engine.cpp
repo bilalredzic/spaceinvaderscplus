@@ -44,7 +44,7 @@ void Engine::run() {
 		SDL_RenderClear(renderer);
 		if (scene != nullptr) {
 			scene->handleInput();
-			scene->update(targetFrameTime);
+			scene->update(targetFrameTime/1000.0f);
 			scene->render(renderer);
 		}
 		SDL_RenderPresent(renderer);

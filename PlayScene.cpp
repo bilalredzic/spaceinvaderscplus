@@ -16,17 +16,44 @@ void PlayScene::handleInput() {
             player.moveLeft(dt);
         } else if (Engine::keyEvents[i].key.key == SDLK_D) {
             player.moveRight(dt);
+        } else if (Engine::keyEvents[i].key.key == SDLK_SPACE) {
+            Projectile* p = new Projectile();
+            
+            const SDL_FRect& pr = player.getRect();
+            p->setSize(6.0f, 14.0f);
+            p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
+
+            projectiles.push_back(p);
+            objects.push_back(p);
         }
     }
 };
 // Update gameplay logic here.
 void PlayScene::update(float dt) {
     size_t length = this->objects.size();
-    for (int i = 0; i < length; i++) {
+    for (size_t i = 0; i < length; i++) {
         if (this->objects[i]->isActive())
             this->objects[i]->update(dt);
-    };
+        } 
+    //no i++ in loop because we only increment when we don't erase
+    for (size_t i = 0; i<projectiles.size();) {
+        if (!projectiles[i]->isActive()){
+            GameObject* dead = projectiles[i];
+
+            for (size_t j = 0; j<objects.size(); j++) {
+                if (objects[j] == dead) {
+                    objects.erase(objects.begin() + j);
+                    break;
+                }
+            }
+            delete projectiles[i];
+            projectiles.erase(projectiles.begin() + i);
+        } else {
+            i++;
+        }
+    }
 };
+
 // Draw gameplay objects here.
 void PlayScene::render(SDL_Renderer* renderer) {
     for (size_t i = 0; i < this->objects.size(); i++) {
@@ -38,5 +65,10 @@ void PlayScene::render(SDL_Renderer* renderer) {
 
 // Release gameplay state/resources here.
 void PlayScene::exit() {
-    this->objects.clear();
+    for (size_t i = 0; i < projectiles.size(); i++) {
+        delete projectiles[i];
+    }
+    projectiles.clear();
+    objects.clear();
+
 };

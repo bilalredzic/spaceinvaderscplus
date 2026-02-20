@@ -157,6 +157,7 @@ CMakeFiles/spaceinvaders.dir/PlayScene.cpp.o: \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/SDL/include/SDL3/SDL_oldnames.h \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Player.hpp \
   /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/GameObject.hpp \
+  /Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/Projectile.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/copy.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/copy_move_common.h \

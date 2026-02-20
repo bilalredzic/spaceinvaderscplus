@@ -15,7 +15,7 @@ class Player : public GameObject {
         void moveLeft(float dt);
         void moveRight(float dt);
     private:
-        float speed = 300.0f;
+        float speed = 1500.0f;
 
 };
 

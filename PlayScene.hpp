@@ -3,7 +3,9 @@
 
 #include "Scene.hpp"
 #include "Player.hpp"
+#include "Projectile.hpp"
 #include <vector>
+
 
 class PlayScene : public Scene {
     public:
@@ -22,6 +24,7 @@ class PlayScene : public Scene {
 
     private:
         std::vector<GameObject*> objects;
+        std::vector<Projectile*> projectiles;
         Player player;
 };
 
