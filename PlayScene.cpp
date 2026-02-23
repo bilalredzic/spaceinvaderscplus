@@ -21,12 +21,7 @@ void PlayScene::enter() {
 // Read keys/buttons that belong to gameplay.
 void PlayScene::handleInput() {
     const float dt = targetFrameTime/1000.0f; // ms-> seconds
-    const bool* keys = SDL_GetKeyboardState(nullptr);
-
-    if (keys[SDL_SCANCODE_A]) player.moveLeft(dt);
-    if (keys[SDL_SCANCODE_D]) player.moveRight(dt);
-    if (keys[SDL_SCANCODE_W]) player.moveUp(dt);
-    if (keys[SDL_SCANCODE_S]) player.moveDown(dt);
+    const bool* keys = Engine::keyState;
 
     if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
         Projectile* p = new Projectile();
