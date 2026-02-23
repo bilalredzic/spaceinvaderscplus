@@ -4,10 +4,10 @@
 #include "GameObject.hpp"
 #include <SDL3/SDL.h>
 
-
 class Player : public GameObject {
     public:
         ~Player() override = default;
+        Player();
 
         void update(float dt) override;
         void render(SDL_Renderer* renderer) override;
@@ -16,9 +16,12 @@ class Player : public GameObject {
         void moveRight(float dt);
         void moveUp(float dt);
         void moveDown(float dt);
+        int getHP();
+        void loseLife();
     private:
-        float speed = 500.0f;
-
+        SDL_FRect* rect;
+        float speed = 3000.0f;
+        int lives = 3;
 };
 
 
