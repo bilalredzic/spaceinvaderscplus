@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/cmake_install.cmake",
-		"/Users/bilalredzic/gvsu/cis376/c++/spaceinvaderscplus/build/SDL/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
