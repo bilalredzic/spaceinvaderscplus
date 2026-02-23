@@ -40,9 +40,8 @@ class Engine {
 		bool running = false;
 		// Notice that we are storing copies of the
 		// events, not pointers or references.
-		static std::vector<SDL_Event> keyEvents;
+		static const bool* keyState;
 		Scene* scene = nullptr;
-
 };
 
 #endif
