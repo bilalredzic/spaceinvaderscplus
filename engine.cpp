@@ -5,7 +5,7 @@
 
 // Want to share these.  Easiest (and quick) way
 // is with a static data structure.
-std::vector<SDL_Event> Engine::keyEvents;
+const bool* Engine::keyState = nullptr;
 
 Engine::Engine() { init(); }
 
@@ -24,21 +24,14 @@ void Engine::run() {
 	running = true;
 	while (running) {
 		// Clear the events from the last frame first.
-		Engine::keyEvents.clear();
-		SDL_Event event;
+		Engine::keyState = SDL_GetKeyboardState(nullptr);
+        SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_EVENT_QUIT) {
-				SDL_Log("Shutting down...");
-				running = false;
+				    SDL_Log("Shutting down...");
+				    running = false;
+			    }
 			}
-			if (event.type == SDL_EVENT_KEY_DOWN) {
-				// Since we are storing copies of events, this
-				// works.  Would not work if we were storing pointers
-				// as event is a local variable to this function and
-				// would always have the same address.
-				Engine::keyEvents.push_back(event);
-			}
-		}
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
@@ -51,7 +44,7 @@ void Engine::run() {
 		// Naive delay that doesn't take into account
 		// how long the loop ran.
 		SDL_Delay(targetFrameTime);
-	}
+    }
 }
 
 bool Engine::init() {
