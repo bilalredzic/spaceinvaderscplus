@@ -1,7 +1,21 @@
 #include "Player.hpp"
+#include "Engine.hpp"
 
-void Player::update(float dt){
-    
+Player::Player()
+{
+    // auto* spriteComponent = addComponent<SpriteComponent>();
+    // spriteComponent->loadSprite(Engine::instance().getRenderer(), "sprite.png");
+    // rect = spriteComponent->getRect();
+}
+
+void Player::update(float dt)
+{
+    const bool *keys = Engine::keyState;
+
+    if (keys[SDL_SCANCODE_A]) moveLeft(dt);
+    if (keys[SDL_SCANCODE_D]) moveRight(dt);
+    if (keys[SDL_SCANCODE_W]) moveUp(dt);
+    if (keys[SDL_SCANCODE_S]) moveDown(dt);
 };
 
 void Player::render(SDL_Renderer* renderer) {
@@ -17,7 +31,6 @@ void Player::moveLeft(float dt) {
     if (newX < 0.0f) newX = 0.0f;
     if (newX > maxX) newX = maxX;
     setPosition(newX, r.y);
-
 };
 
 void Player::moveRight(float dt) {
@@ -51,4 +64,14 @@ void Player::moveDown(float dt) {
     if (newY > maxY) newY = maxY;
 
     setPosition(r.x, newY);
+}
+
+int Player::getHP()
+{
+    return lives;
+}
+
+void Player::loseLife()
+{
+    lives--;
 }
