@@ -1,5 +1,7 @@
 #include "PlayScene.hpp"
 #include "Engine.hpp"
+#include "CreditScene.hpp"
+
 #include <SDL3/SDL_keyboard.h>
 
 #include <random>
@@ -22,6 +24,19 @@ void PlayScene::enter() {
 void PlayScene::handleInput() {
     const float dt = targetFrameTime/1000.0f; // ms-> seconds
     const bool* keys = Engine::keyState;
+
+    if (isGameOver) {
+        if (keys[SDL_SCANCODE_R]) {
+            exit();
+            isGameOver = false;
+            shootTimer = 0.0f;
+            enemySpawnTimer = 0.0f;
+            currentLevel = 1;
+            player = Player();
+            enter();
+        }
+        return;
+    }
 
     if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
         Projectile* p = new Projectile();
@@ -53,6 +68,9 @@ void PlayScene::handleInput() {
 };
 // Update gameplay logic here.
 void PlayScene::update(float dt) {
+    if (isGameOver) {
+        return;
+    }
     for (size_t i = 0; i < objects.size(); i++) {
         if (this->objects[i]->isActive())
             this->objects[i]->update(dt);
@@ -72,9 +90,40 @@ void PlayScene::update(float dt) {
             if (overlaps(pr, er)) {
                 projectiles[i]->setActive(false);
                 enemies[j]->setActive(false);
+                killsThisLevel++;
+                if (killsThisLevel >= killsRequired) {
+                    currentLevel++;
+                    killsThisLevel = 0;
+                    killsRequired += 10;
+
+                    enemySpawnCooldown = 0.05f;
+                    if (enemySpawnCooldown < 0.25f) enemySpawnCooldown = 0.25f;
+                }
                 break;
             }
         }
+    }
+
+    const SDL_FRect& playerRect = player.getRect();
+    for (size_t i = 0; i<projectiles.size(); i++) {
+        if (!projectiles[i]->isActive()) continue;
+        if (projectiles[i]->getType() != ProjectileType::EnemyBasic) continue;
+
+        const SDL_FRect& pr = projectiles[i]->getRect();
+        if (overlaps(pr, playerRect)) {
+            projectiles[i]->setActive(false);
+            player.onHit();
+
+            if (player.getHP() <= 0) {
+                isGameOver = true;
+                SDL_Log("Game Over");
+
+                static CreditScene creditScene;
+                Engine::instance().setScene(&creditScene);
+                return;
+            }
+        }
+
     }
     
     //no i++ in loop because we only increment when we don't erase
@@ -126,6 +175,8 @@ void PlayScene::update(float dt) {
         float spawnX = xDist(rng);
 
         Enemy* e = new Enemy();
+        float enemyMoveSpeed = 220.0f + 20.0f*(currentLevel - 1);
+        e->setSpeed(enemyMoveSpeed);
 
         e->setSize(enemyW, enemyH);
         e->setPosition(spawnX, spawnY);
@@ -159,6 +210,21 @@ void PlayScene::render(SDL_Renderer* renderer) {
             this->objects[i]->render(renderer);
         }
     }
+    std::string hud = "LEVEL " + std::to_string(currentLevel);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDebugText(renderer, 10.0f, 10.0f, hud.c_str());
+
+    std::string livesText = "LIVES";
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDebugText(renderer, 680.0f, 15.0f, livesText.c_str());
+
+    // one red box per life (top-right placeholder for hearts)
+    int hp = player.getHP();
+    for (int i = 0; i < hp; i++) {
+        SDL_FRect lifeBox{800.0f - 10.0f - (i + 1) * 22.0f, 10.0f, 18.0f, 18.0f};
+        SDL_SetRenderDrawColor(renderer, 255, 60, 60, 255);
+        SDL_RenderFillRect(renderer, &lifeBox);
+}
 };
 
 // Release gameplay state/resources here.
@@ -172,7 +238,6 @@ void PlayScene::exit() {
     projectiles.clear();
     objects.clear();
     enemies.clear();
-
 };
 
 void PlayScene::spawnEnemyProjectile(Enemy* e) {

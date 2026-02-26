@@ -2,7 +2,6 @@
 #include "Scene.hpp"
 
 #include <SDL3/SDL.h>
-
 // Want to share these.  Easiest (and quick) way
 // is with a static data structure.
 const bool* Engine::keyState = nullptr;

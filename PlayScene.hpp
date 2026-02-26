@@ -6,6 +6,8 @@
 #include "Projectile.hpp"
 #include "Enemy.hpp"
 #include <vector>
+#include <string>
+
 
 
 class PlayScene : public Scene {
@@ -35,9 +37,14 @@ class PlayScene : public Scene {
         float enemyShootCooldown = 0.7f;
         float enemyShootTimer = 0.0f;
         int currentLevel = 1;
+        int killsThisLevel;
+        int killsRequired = 15;
         float enemyProjectileBaseSpeed = 300.0f;
         float enemyProjectileSpeedPerLevel = 35.0f;
         void spawnEnemyProjectile(Enemy* e);
+        bool isGameOver = false;
+
+
 };
 
 

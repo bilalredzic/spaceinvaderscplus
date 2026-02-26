@@ -32,3 +32,7 @@ void Enemy::setShootCooldown(float cooldown) {
 void Enemy::setInitialShootTimer(float t) {
     shootTimer = t;
 }
+
+void Enemy::setSpeed(float s) {
+    speed = s;
+}

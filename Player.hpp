@@ -18,10 +18,14 @@ class Player : public GameObject {
         void moveDown(float dt);
         int getHP();
         void loseLife();
+        void onHit();
     private:
         SDL_FRect* rect;
         float speed = 500.0f;
         int lives = 3;
+        float hitFlashTimer = 0.0f;
+        float hitFlashDuration = 0.15f;
+
 };
 
 

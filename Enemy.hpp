@@ -15,6 +15,7 @@ class Enemy : public GameObject {
         bool canShoot(float dt);
         void setShootCooldown(float cooldown);
         void setInitialShootTimer(float t);
+        void setSpeed(float s);
     private:
         float speed = 175.0f;
         float shootCooldown = 2.5f;

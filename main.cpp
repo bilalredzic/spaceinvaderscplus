@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
 
     TitleScene titleScene;
     PlayScene playScene;
-    engine.setScene(&playScene);
+    engine.setScene(&titleScene);
     engine.run();
     engine.shutdown();
 

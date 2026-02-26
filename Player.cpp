@@ -16,11 +16,21 @@ void Player::update(float dt)
     if (keys[SDL_SCANCODE_D]) moveRight(dt);
     if (keys[SDL_SCANCODE_W]) moveUp(dt);
     if (keys[SDL_SCANCODE_S]) moveDown(dt);
+
+    if (hitFlashTimer > 0.0f) hitFlashTimer -= dt;
+    if (hitFlashTimer < 0.0f) hitFlashTimer = 0.0f;
+
 };
 
 void Player::render(SDL_Renderer* renderer) {
     const SDL_FRect& r = getRect();
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+
+    if (hitFlashTimer > 0.0f) {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    } else {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    }
+    
     SDL_RenderFillRect(renderer, &r);
 };
 
@@ -74,4 +84,9 @@ int Player::getHP()
 void Player::loseLife()
 {
     lives--;
+}
+
+void Player::onHit() {
+    loseLife();
+    hitFlashTimer = hitFlashDuration;
 }

@@ -12,6 +12,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 # Build SDL from the local SDL folder in this repo.
 add_subdirectory(SDL EXCLUDE_FROM_ALL)
 
+
 # Main game executable.
 # Add all .cpp files that should be compiled into the game.
 add_executable(spaceinvaders WIN32
