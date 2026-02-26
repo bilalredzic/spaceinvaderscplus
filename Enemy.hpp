@@ -11,8 +11,15 @@ class Enemy : public GameObject {
 
         void update(float dt) override;
         void render(SDL_Renderer* renderer) override;
+
+        bool canShoot(float dt);
+        void setShootCooldown(float cooldown);
+        void setInitialShootTimer(float t);
     private:
-        float speed = 250.0f;
+        float speed = 175.0f;
+        float shootCooldown = 2.5f;
+        float shootTimer = 0.0f;
+
 
 
 };

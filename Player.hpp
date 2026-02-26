@@ -20,7 +20,7 @@ class Player : public GameObject {
         void loseLife();
     private:
         SDL_FRect* rect;
-        float speed = 3000.0f;
+        float speed = 500.0f;
         int lives = 3;
 };
 

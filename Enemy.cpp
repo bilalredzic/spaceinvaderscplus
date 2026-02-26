@@ -15,3 +15,20 @@ void Enemy::render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &r);
 };
+
+bool Enemy::canShoot(float dt) {
+    shootTimer -=dt;
+    if (shootTimer <= 0.0f) {
+        shootTimer = shootCooldown;
+        return true;
+    }
+    return false;
+}
+
+void Enemy::setShootCooldown(float cooldown) {
+    shootCooldown = cooldown;
+}
+
+void Enemy::setInitialShootTimer(float t) {
+    shootTimer = t;
+}

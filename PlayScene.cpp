@@ -25,15 +25,16 @@ void PlayScene::handleInput() {
 
     if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
         Projectile* p = new Projectile();
-            
-            const SDL_FRect& pr = player.getRect();
-            p->setSize(6.0f, 14.0f);
-            p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
+        p->setDirection(-1.0f);
+        p->setType(ProjectileType::PlayerBasic);
+        const SDL_FRect& pr = player.getRect();
+        p->setSize(6.0f, 14.0f);
+        p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
 
-            projectiles.push_back(p);
-            objects.push_back(p);
+        projectiles.push_back(p);
+        objects.push_back(p);
             
-            shootTimer = shootCooldown;
+        shootTimer = shootCooldown;
         }
     
 
@@ -59,6 +60,7 @@ void PlayScene::update(float dt) {
     
     for (size_t i = 0; i < projectiles.size(); i++) {
         if (!projectiles[i]->isActive()) continue;
+        if (projectiles[i]->getType() != ProjectileType::PlayerBasic) continue;
 
         const SDL_FRect& pr = projectiles[i]->getRect();
 
@@ -127,12 +129,27 @@ void PlayScene::update(float dt) {
 
         e->setSize(enemyW, enemyH);
         e->setPosition(spawnX, spawnY);
+
+        e->setShootCooldown(1.2f);
+        std::uniform_real_distribution<float> initialShot(0.0f, 2.5f);
+        e->setInitialShootTimer(initialShot(rng));
+
         enemies.push_back(e);
         objects.push_back(e);
-
+        
         enemySpawnTimer = enemySpawnCooldown;
     }
 
+    
+    for (size_t i = 0; i<enemies.size();i++) {
+        Enemy* e = enemies[i];
+        if (!e->isActive()) {
+            continue;
+        }
+        if (e->canShoot(dt)) {
+            spawnEnemyProjectile(e);
+        }
+    }
 };
 
 // Draw gameplay objects here.
@@ -157,3 +174,20 @@ void PlayScene::exit() {
     enemies.clear();
 
 };
+
+void PlayScene::spawnEnemyProjectile(Enemy* e) {
+    Projectile* p = new Projectile();
+    
+    const float levelSpeed = enemyProjectileBaseSpeed + enemyProjectileSpeedPerLevel * (currentLevel - 1);
+
+    p->setDirection(1.0f);
+    p->setType(ProjectileType::EnemyBasic);
+    p->setSpeed(levelSpeed);
+
+    const SDL_FRect& er = e->getRect();
+    p->setSize(6.0f, 14.0f);
+    p->setPosition(er.x + (er.w * 0.5f) - 3.0f, er.y + er.h);
+
+    projectiles.push_back(p);
+    objects.push_back(p);
+}

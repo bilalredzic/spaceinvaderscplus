@@ -32,6 +32,12 @@ class PlayScene : public Scene {
         float shootTimer = 0.0f;
         float enemySpawnCooldown = 0.8f;
         float enemySpawnTimer = 0.0f;
+        float enemyShootCooldown = 0.7f;
+        float enemyShootTimer = 0.0f;
+        int currentLevel = 1;
+        float enemyProjectileBaseSpeed = 300.0f;
+        float enemyProjectileSpeedPerLevel = 35.0f;
+        void spawnEnemyProjectile(Enemy* e);
 };
 
 
