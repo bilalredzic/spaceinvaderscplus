@@ -3,6 +3,7 @@
 
 #include "Scene.hpp"
 
+// End screen scene responsible for showing game-over text and returning to title.
 class CreditScene : public Scene {
     public:
         ~CreditScene() override = default;
@@ -19,6 +20,7 @@ class CreditScene : public Scene {
         void exit() override;
 
     private:
+        // Credits scene currently stores no extra state between frames.
     
 };
 

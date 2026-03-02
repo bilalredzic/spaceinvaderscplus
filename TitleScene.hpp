@@ -3,7 +3,7 @@
 
 #include "Scene.hpp"
 
-// Title screen state.
+// Title screen scene responsible for starting the game and presenting the opening prompt.
 class TitleScene : public Scene {
     public:
         ~TitleScene() override = default;
@@ -20,6 +20,7 @@ class TitleScene : public Scene {
         void exit() override;
 
     private:
+        // Title scene currently has no persistent state beyond its scene callbacks.
 
 };
 

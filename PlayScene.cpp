@@ -19,11 +19,14 @@ static bool overlaps(const SDL_FRect& a, const SDL_FRect& b) {
 
 // Initialize gameplay state/resources here.
 void PlayScene::enter() {
+    // Clear any leftover dynamic objects so this entry starts as a fresh run.
     exit();
 
+    // Load shared gameplay textures once before objects begin rendering.
     Projectile::loadSharedTextures(Engine::instance().getRenderer());
     Enemy::loadSharedTexture(Engine::instance().getRenderer());
 
+    // Reset gameplay progression and timers back to their starting values.
     isGameOver = false;
     shootTimer = shootCooldown;
     enemySpawnTimer = 0.0f;
@@ -33,10 +36,12 @@ void PlayScene::enter() {
     totalKills = 0;
     killsRequired = baseKillsRequired;
 
+    // Restore the player to a clean state and add it back into the scene.
     player.reset();
     player.setPosition(100.0f, 500.0f);
     player.setSize(50.0f, 40.0f);
     this->objects.push_back(&player);
+    // Load the background once and reuse it across later scene entries.
     if (backgroundTexture == nullptr) {
     SDL_Surface* surface = IMG_Load("assets/background.png");
     if (!surface) {
@@ -56,6 +61,7 @@ void PlayScene::handleInput() {
     const float dt = targetFrameTime/1000.0f; // ms-> seconds
     const bool* keys = Engine::keyState;
 
+    // Fire a player projectile when space is pressed and the shot cooldown is ready.
     if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
         Projectile* p = new Projectile();
         p->setDirection(-1.0f);
@@ -91,11 +97,13 @@ void PlayScene::update(float dt) {
     if (isGameOver) {
         return;
     }
+    // Update every active gameplay object once per frame.
     for (size_t i = 0; i < objects.size(); i++) {
         if (this->objects[i]->isActive())
             this->objects[i]->update(dt);
         } 
     
+    // Check player projectiles against enemies and award kills on hit.
     for (size_t i = 0; i < projectiles.size(); i++) {
         if (!projectiles[i]->isActive()) continue;
         if (projectiles[i]->getType() != ProjectileType::PlayerBasic) continue;
@@ -113,6 +121,7 @@ void PlayScene::update(float dt) {
                 AudioManager::instance().playEnemyHit();
                 killsThisLevel++;
                 totalKills++;
+                // Level up once the kill target for the current level is reached.
                 if (killsThisLevel >= killsRequired) {
                     currentLevel++;
                     killsThisLevel = 0;
@@ -128,6 +137,7 @@ void PlayScene::update(float dt) {
     }
 
     const SDL_FRect& playerRect = player.getRect();
+    // Check enemy projectiles against the player and trigger game over when lives run out.
     for (size_t i = 0; i<projectiles.size(); i++) {
         if (!projectiles[i]->isActive()) continue;
         if (projectiles[i]->getType() != ProjectileType::EnemyBasic) continue;
@@ -150,6 +160,7 @@ void PlayScene::update(float dt) {
         }
 
     }
+    // Check direct ship collisions so enemies damage the player on contact as well.
     for (size_t i = 0; i < enemies.size(); i++) {
         if (!enemies[i]->isActive()) continue;
 
@@ -172,7 +183,7 @@ void PlayScene::update(float dt) {
         }
     }
     
-    //no i++ in loop because we only increment when we don't erase
+    // Remove inactive projectiles without skipping the next element after erase.
     for (size_t i = 0; i<projectiles.size();) {
         if (!projectiles[i]->isActive()){
             GameObject* dead = projectiles[i];
@@ -190,6 +201,7 @@ void PlayScene::update(float dt) {
         }
     }
 
+    // Remove inactive enemies without skipping the next element after erase.
     for (size_t i = 0; i < enemies.size();) {
     if (!enemies[i]->isActive()) {
         GameObject* dead = enemies[i];
@@ -208,9 +220,11 @@ void PlayScene::update(float dt) {
     }
     }
 
+    // Advance the player fire timer and enemy spawn timer each frame.
     shootTimer -= dt;
     if (shootTimer < 0.0f) shootTimer = 0.0f;
     enemySpawnTimer -=dt;
+    // Spawn a new enemy once the scene's spawn cooldown expires.
     if (enemySpawnTimer <= 0.0f) {
         static std::mt19937 rng(std::random_device{}());
         float enemyW = 40.0f;
@@ -238,6 +252,7 @@ void PlayScene::update(float dt) {
     }
 
     
+    // Let each active enemy decide independently when to fire.
     for (size_t i = 0; i<enemies.size();i++) {
         Enemy* e = enemies[i];
         if (!e->isActive()) {
@@ -251,24 +266,28 @@ void PlayScene::update(float dt) {
 
 // Draw gameplay objects here.
 void PlayScene::render(SDL_Renderer* renderer) {
+    // Draw the background first so all gameplay objects appear above it.
     if (backgroundTexture != nullptr) {
         SDL_FRect bgRect{0.0f, 0.0f, 800.0f, 600.0f};
         SDL_RenderTexture(renderer, backgroundTexture, nullptr, &bgRect);
     }
+    // Draw every active gameplay object for the current frame.
     for (size_t i = 0; i < this->objects.size(); i++) {
         if (this->objects[i]->isActive()) {
             this->objects[i]->render(renderer);
         }
     }
+    // Show current level and total kills in the top-left HUD.
     std::string hud = "LEVEL " + std::to_string(currentLevel) + "   KILLS " + std::to_string(totalKills);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDebugText(renderer, 10.0f, 10.0f, hud.c_str());
 
+    // Label the life display on the top-right side of the screen.
     std::string livesText = "LIVES";
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDebugText(renderer, 680.0f, 15.0f, livesText.c_str());
 
-    // one red box per life (top-right placeholder for hearts)
+    // Draw one red box per remaining life as a simple heart placeholder.
     int hp = player.getHP();
     for (int i = 0; i < hp; i++) {
         SDL_FRect lifeBox{800.0f - 10.0f - (i + 1) * 22.0f, 10.0f, 18.0f, 18.0f};
@@ -279,18 +298,21 @@ void PlayScene::render(SDL_Renderer* renderer) {
 
 // Release gameplay state/resources here.
 void PlayScene::exit() {
+    // Delete the dynamically allocated gameplay objects from the current run.
     for (size_t i = 0; i < projectiles.size(); i++) {
         delete projectiles[i];
     }
     for (size_t i = 0; i<enemies.size(); i++) {
         delete enemies[i];
     }
+    // Clear the containers so the next entry starts from an empty scene.
     projectiles.clear();
     objects.clear();
     enemies.clear();
 };
 
 void PlayScene::spawnEnemyProjectile(Enemy* e) {
+    // Create one enemy projectile using a speed scaled by the current level.
     Projectile* p = new Projectile();
     
     const float levelSpeed = enemyProjectileBaseSpeed + enemyProjectileSpeedPerLevel * (currentLevel - 1);
@@ -306,5 +328,6 @@ void PlayScene::spawnEnemyProjectile(Enemy* e) {
     projectiles.push_back(p);
     objects.push_back(p);
 
+    // Play the enemy firing sound when the projectile is spawned.
     AudioManager::instance().playEnemyShoot();
 }

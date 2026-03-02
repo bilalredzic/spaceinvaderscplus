@@ -3,8 +3,10 @@
 
 #include "miniaudio.h"
 
+// Centralized audio controller for loading and playing shared game sounds.
 class AudioManager {
     public:
+        // Access the single shared audio manager instance used by the whole game.
         static AudioManager& instance() {
             static AudioManager instance;
             return instance;
@@ -44,6 +46,7 @@ class AudioManager {
         AudioManager() = default;
         ~AudioManager() = default;
 
+        // miniaudio engine plus one reusable sound object per effect/music track.
         ma_engine engine;
         ma_sound shootSound;
         ma_sound enemyShootSound;

@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include <SDL3/SDL.h>
 
+// Player-controlled ship with movement, lives, and sprite rendering state.
 class Player : public GameObject {
     public:
         ~Player() override;
@@ -21,6 +22,7 @@ class Player : public GameObject {
         void onHit();
         void reset();
     private:
+        // Sprite, movement, and life-flash state for the player ship.
         SDL_Texture* texture = nullptr;
         float speed = 450.0f;
         int lives = 3;

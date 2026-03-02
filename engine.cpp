@@ -15,10 +15,12 @@ Engine::Engine() { init(); }
 SDL_Renderer* Engine::getRenderer() { return this->renderer; };
 
 void Engine::setScene(Scene *scene) {
+	// Cleanly exit the current scene before activating the next one.
 	if (this->scene != nullptr) {
 		this->scene->exit();
 	}
 	this->scene = scene;
+	// Let the new scene perform its setup as soon as it becomes active.
 	if (this->scene != nullptr) {
 		this->scene->enter();
 	}
@@ -26,9 +28,10 @@ void Engine::setScene(Scene *scene) {
 void Engine::run() {
 	running = true;
 	while (running) {
-		// Clear the events from the last frame first.
+		// Snapshot current keyboard state before handing input to the active scene.
 		Engine::keyState = SDL_GetKeyboardState(nullptr);
         SDL_Event event;
+		// Poll SDL events so the window can close and input stays responsive.
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_EVENT_QUIT) {
 				    SDL_Log("Shutting down...");
@@ -36,6 +39,7 @@ void Engine::run() {
 			    }
 			}
 
+		// Clear the frame, run the active scene, then present the finished image.
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		if (scene != nullptr) {
@@ -51,13 +55,14 @@ void Engine::run() {
 }
 
 bool Engine::init() {
+	// Initialize SDL video before creating the game window and renderer.
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
 		SDL_Log("SDL_Init failed: %s", SDL_GetError());
 		return false;
 	}
 
 	// Gotta draw somewhere....
-	window = SDL_CreateWindow("RGB Color Cycle", 800, 600, 0);
+	window = SDL_CreateWindow("Space Invaders", 800, 600, 0);
 
 	if (!window) {
 		SDL_Log("SDL_CreateWindow failed: %s", SDL_GetError());
@@ -73,6 +78,7 @@ bool Engine::init() {
 		SDL_Quit();
 		return false;
 	}
+	// Initialize audio and load the shared sound effects and music for the game.
 	AudioManager::instance().init();
 	AudioManager::instance().loadShootSound("assets/playerlaser.wav");
 	AudioManager::instance().loadEnemyShootSound("assets/enemylaser.wav");
@@ -91,6 +97,7 @@ bool Engine::init() {
 }
 
 void Engine::shutdown() {
+	// Release renderer/window resources and unload shared textures and audio before quitting SDL.
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	Projectile::unloadSharedTextures();

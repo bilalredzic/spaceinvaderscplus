@@ -8,6 +8,7 @@ void CreditScene::enter() {}
 // Read keys/buttons that belong to the credits screen.
 void CreditScene::handleInput() {
     const bool* keys = Engine::keyState;
+    // Return to the title screen when the player presses R.
     if (keys[SDL_SCANCODE_R]) {
         static TitleScene titleScene;
         Engine::instance().setScene(&titleScene);
@@ -17,6 +18,7 @@ void CreditScene::handleInput() {
 void CreditScene::update(float) {}
 // Draw credits screen contents here.
 void CreditScene::render(SDL_Renderer* renderer) {
+    // Center the game-over text and restart prompt using debug-text width estimates.
     std::string gameOver = "GAME OVER";
     std::string prompt = "PRESS R TO RETURN TO TITLE";
 

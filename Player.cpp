@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+    // Load the player ship sprite once when the player object is constructed.
     SDL_Surface* surface = IMG_Load("assets/player.png");
     if (!surface) {
         SDL_Log("IMG_Load failed for player.png: %s", SDL_GetError());
@@ -26,11 +27,13 @@ void Player::update(float dt)
 {
     const bool *keys = Engine::keyState;
 
+    // Move continuously while the corresponding movement keys are held.
     if (keys[SDL_SCANCODE_A]) moveLeft(dt);
     if (keys[SDL_SCANCODE_D]) moveRight(dt);
     if (keys[SDL_SCANCODE_W]) moveUp(dt);
     if (keys[SDL_SCANCODE_S]) moveDown(dt);
 
+    // Count down the hit-flash timer and clamp it at zero.
     if (hitFlashTimer > 0.0f) hitFlashTimer -= dt;
     if (hitFlashTimer < 0.0f) hitFlashTimer = 0.0f;
 
@@ -39,6 +42,7 @@ void Player::update(float dt)
 void Player::render(SDL_Renderer* renderer) {
     const SDL_FRect& r = getRect();
 
+    // Prefer the loaded sprite texture and tint it red briefly after a hit.
     if (texture != nullptr) {
         if (hitFlashTimer > 0.0f) {
             SDL_SetTextureColorMod(texture, 255, 80, 80);
@@ -51,6 +55,7 @@ void Player::render(SDL_Renderer* renderer) {
         return;
     }
 
+    // Fall back to a simple colored shape if the sprite could not be loaded.
     if (hitFlashTimer > 0.0f) {
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     } else {
@@ -63,6 +68,7 @@ void Player::render(SDL_Renderer* renderer) {
 
 void Player::moveLeft(float dt) {
     const SDL_FRect& r = getRect();
+    // Move left and clamp the player inside the window bounds.
     float newX = r.x - speed*dt;
     float maxX = 800.0f - r.w;
     if (newX < 0.0f) newX = 0.0f;
@@ -72,6 +78,7 @@ void Player::moveLeft(float dt) {
 
 void Player::moveRight(float dt) {
     const SDL_FRect& r = getRect();
+    // Move right and clamp the player inside the window bounds.
     float newX = r.x + speed * dt;
     float maxX = 800.0f - r.w;
 
@@ -83,6 +90,7 @@ void Player::moveRight(float dt) {
 
 void Player::moveUp(float dt) {
     const SDL_FRect& r = getRect();
+    // Move up and clamp the player inside the window bounds.
     float newY = r.y - speed * dt;
     float maxY = 600.0f - r.h;
 
@@ -94,6 +102,7 @@ void Player::moveUp(float dt) {
 
 void Player::moveDown(float dt) {
     const SDL_FRect& r = getRect();
+    // Move down and clamp the player inside the window bounds.
     float newY = r.y + speed * dt;
     float maxY = 600.0f - r.h;
 
@@ -114,11 +123,13 @@ void Player::loseLife()
 }
 
 void Player::onHit() {
+    // Losing a life also starts the temporary red flash effect.
     loseLife();
     hitFlashTimer = hitFlashDuration;
 }
 
 Player::~Player() {
+    // Release the player texture when the player object is destroyed.
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);
         texture = nullptr;
@@ -126,6 +137,7 @@ Player::~Player() {
 }
 
 void Player::reset() {
+    // Restore the player to a fresh state for a new run.
     lives = 3;
     hitFlashTimer = 0.0f;
 }

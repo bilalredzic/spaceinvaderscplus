@@ -10,6 +10,7 @@
 
 
 
+// Main gameplay scene that owns the player, active enemies, projectiles, and HUD state.
 class PlayScene : public Scene {
     public:
         ~PlayScene() override = default;
@@ -26,14 +27,18 @@ class PlayScene : public Scene {
         void exit() override;
 
     private:
+        // Active objects are split by role so update, collision, and cleanup stay manageable.
         std::vector<GameObject*> objects;
         std::vector<Projectile*> projectiles;
         std::vector<Enemy*> enemies;
         Player player;
-        float shootCooldown = 0.12f;
+
+        // Base/default values used to reset gameplay cleanly for a new run.
+        float shootCooldown = 0.18f;
         float baseEnemySpawnCooldown = 0.8f;
         int baseKillsRequired = 15;
 
+        // Runtime timers and progression state that change during gameplay.
         float shootTimer = 0.0f;
         float enemySpawnCooldown = 0.8f;
         float enemySpawnTimer = 0.0f;
@@ -44,11 +49,15 @@ class PlayScene : public Scene {
         int killsRequired = 15;
         float enemyProjectileBaseSpeed = 300.0f;
         float enemyProjectileSpeedPerLevel = 35.0f;
+
+        // Helper for spawning one enemy projectile from a specific enemy ship.
         void spawnEnemyProjectile(Enemy* e);
+
+        // Run-state flags and counters used for HUD display and scene transitions.
         bool isGameOver = false;
         int totalKills = 0;
 
-
+        // Background texture rendered behind all gameplay objects.
         SDL_Texture* backgroundTexture = nullptr;
 
 

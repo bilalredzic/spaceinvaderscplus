@@ -6,11 +6,13 @@
 
 // Initialize title-specific state/resources here.
 void TitleScene::enter() {
+    // Restart the background music whenever the title screen becomes active.
     AudioManager::instance().playMusic();
 }
 // Read keys/buttons that belong to the title screen.
 void TitleScene::handleInput() {
     const bool* keys = Engine::keyState;
+    // Start gameplay when the player presses space on the title screen.
     if (keys[SDL_SCANCODE_SPACE]) {
         static PlayScene playScene;
         Engine::instance().setScene(&playScene);
@@ -20,6 +22,7 @@ void TitleScene::handleInput() {
 void TitleScene::update(float) {}
 // Draw title screen contents here.
 void TitleScene::render(SDL_Renderer* renderer) {
+    // Center the title and prompt text by estimating debug-text width.
     std::string title = "SPACE INVADERS";
     std::string prompt = "PRESS SPACE TO START";
 

@@ -4,6 +4,7 @@
 #include <SDL3/SDL.h>
 
 bool AudioManager::init() {
+    // Initialize the audio engine once before any sounds are loaded or played.
     if (initialized) return true;
 
     if (ma_engine_init(nullptr, &engine) != MA_SUCCESS) {
@@ -16,14 +17,10 @@ bool AudioManager::init() {
 }
 
 void AudioManager::shutdown() {
+    // Unload each sound resource before shutting down the audio engine itself.
     if (shootLoaded) {
         ma_sound_uninit(&shootSound);
         shootLoaded = false;
-    }
-
-    if (initialized) {
-        ma_engine_uninit(&engine);
-        initialized = false;
     }
 
     if (enemyShootLoaded) {
@@ -64,6 +61,7 @@ void AudioManager::shutdown() {
 }
 
 bool AudioManager::loadShootSound(const char* filepath) {
+    // Load the player's firing sound so it can be reused each time the player shoots.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &shootSound) != MA_SUCCESS) {
@@ -76,6 +74,7 @@ bool AudioManager::loadShootSound(const char* filepath) {
 }
 
 void AudioManager::playShoot() {
+    // Restart the sound from the beginning each time the player fires.
     if (!shootLoaded) return;
 
     ma_sound_stop(&shootSound);
@@ -84,6 +83,7 @@ void AudioManager::playShoot() {
 }
 
 bool AudioManager::loadEnemyShootSound(const char* filepath) {
+    // Load the enemy firing sound so each enemy shot can reuse the same resource.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &enemyShootSound) != MA_SUCCESS) {
@@ -96,6 +96,7 @@ bool AudioManager::loadEnemyShootSound(const char* filepath) {
 }
 
 void AudioManager::playEnemyShoot() {
+    // Restart the sound from the beginning each time an enemy fires.
     if (!enemyShootLoaded) return;
 
     ma_sound_stop(&enemyShootSound);
@@ -104,6 +105,7 @@ void AudioManager::playEnemyShoot() {
 }
 
 bool AudioManager::loadPlayerHitSound(const char* filepath) {
+    // Load the sound played when the player takes damage.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &playerHitSound) != MA_SUCCESS) {
@@ -116,6 +118,7 @@ bool AudioManager::loadPlayerHitSound(const char* filepath) {
 }
 
 void AudioManager::playPlayerHit() {
+    // Restart the player-hit sound for each damage event.
     if (!playerHitLoaded) return;
 
     ma_sound_stop(&playerHitSound);
@@ -124,6 +127,7 @@ void AudioManager::playPlayerHit() {
 }
 
 bool AudioManager::loadEnemyHitSound(const char* filepath) {
+    // Load the sound played when an enemy is destroyed.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &enemyHitSound) != MA_SUCCESS) {
@@ -136,6 +140,7 @@ bool AudioManager::loadEnemyHitSound(const char* filepath) {
 }
 
 void AudioManager::playEnemyHit() {
+    // Restart the enemy-hit sound for each enemy destroyed.
     if (!enemyHitLoaded) return;
 
     ma_sound_stop(&enemyHitSound);
@@ -144,6 +149,7 @@ void AudioManager::playEnemyHit() {
 }
 
 bool AudioManager::loadLevelUpSound(const char* filepath) {
+    // Load the sound used when the player advances to the next level.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &levelUpSound) != MA_SUCCESS) {
@@ -156,6 +162,7 @@ bool AudioManager::loadLevelUpSound(const char* filepath) {
 }
 
 void AudioManager::playLevelUp() {
+    // Restart the level-up sound each time progression occurs.
     if (!levelUpLoaded) return;
 
     ma_sound_stop(&levelUpSound);
@@ -164,6 +171,7 @@ void AudioManager::playLevelUp() {
 }
 
 bool AudioManager::loadGameOverSound(const char* filepath) {
+    // Load the sound played when the run ends.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &gameOverSound) != MA_SUCCESS) {
@@ -176,6 +184,7 @@ bool AudioManager::loadGameOverSound(const char* filepath) {
 }
 
 void AudioManager::playGameOver() {
+    // Restart the game-over sound when the player loses all lives.
     if (!gameOverLoaded) return;
 
     ma_sound_stop(&gameOverSound);
@@ -184,6 +193,7 @@ void AudioManager::playGameOver() {
 }
 
 bool AudioManager::loadMusic(const char* filepath) {
+    // Load the background music track and configure it to loop continuously.
     if (!initialized) return false;
 
     if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &music) != MA_SUCCESS) {
@@ -197,11 +207,13 @@ bool AudioManager::loadMusic(const char* filepath) {
 }
 
 void AudioManager::playMusic() {
+    // Start or resume the looping background music.
     if (!musicLoaded) return;
     ma_sound_start(&music);
 }
 
 void AudioManager::stopMusic() {
+    // Stop the background music without unloading the music resource.
     if (!musicLoaded) return;
     ma_sound_stop(&music);
 }
