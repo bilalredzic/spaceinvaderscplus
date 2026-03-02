@@ -34,7 +34,7 @@ class PlayScene : public Scene {
         Player player;
 
         // Base/default values used to reset gameplay cleanly for a new run.
-        float shootCooldown = 0.18f;
+        float shootCooldown = 0.20f;
         float baseEnemySpawnCooldown = 0.8f;
         int baseKillsRequired = 15;
 

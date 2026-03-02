@@ -53,6 +53,12 @@ void AudioManager::shutdown() {
         musicLoaded = false;
     }
 
+    if (projectileClashLoaded) {
+        ma_sound_uninit(&projectileClashSound);
+        projectileClashLoaded = false;
+    }
+
+
 
     if (initialized) {
         ma_engine_uninit(&engine);
@@ -207,8 +213,11 @@ bool AudioManager::loadMusic(const char* filepath) {
 }
 
 void AudioManager::playMusic() {
-    // Start or resume the looping background music.
+    // Restart the background music from the beginning whenever a scene wants it to play.
     if (!musicLoaded) return;
+
+    ma_sound_stop(&music);
+    ma_sound_seek_to_pcm_frame(&music, 0);
     ma_sound_start(&music);
 }
 
@@ -216,4 +225,26 @@ void AudioManager::stopMusic() {
     // Stop the background music without unloading the music resource.
     if (!musicLoaded) return;
     ma_sound_stop(&music);
+}
+
+bool AudioManager::loadProjectileClashSound(const char* filepath) {
+    // Load the sound played when projectiles clash.
+    if (!initialized) return false;
+
+    if (ma_sound_init_from_file(&engine, filepath, 0, nullptr, nullptr, &projectileClashSound) != MA_SUCCESS) {
+        SDL_Log("Failed to load projectile clash sound: %s", filepath);
+        return false;
+    }
+
+    projectileClashLoaded = true;
+    return true;
+}
+
+void AudioManager::playProjectileClash() {
+    // Restart the projectile clash sound whenever opposing bullets collide.
+    if (!projectileClashLoaded) return;
+
+    ma_sound_stop(&projectileClashSound);
+    ma_sound_seek_to_pcm_frame(&projectileClashSound, 0);
+    ma_sound_start(&projectileClashSound);
 }

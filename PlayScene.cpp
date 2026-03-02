@@ -175,6 +175,7 @@ void PlayScene::update(float dt) {
             if (overlaps(playerProjRect, enemyProjRect)) {
                 projectiles[i]->setActive(false);
                 projectiles[j]->setActive(false);
+                AudioManager::instance().playProjectileClash();
                 break;
             }
         }

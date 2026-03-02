@@ -39,6 +39,9 @@ class AudioManager {
         bool loadMusic(const char* filepath);
         void playMusic();
 
+        bool loadProjectileClashSound(const char* filepath);
+        void playProjectileClash();
+
         void stopMusic();
 
 
@@ -55,6 +58,8 @@ class AudioManager {
         ma_sound levelUpSound;
         ma_sound gameOverSound;
         ma_sound music;
+        ma_sound projectileClashSound;
+        bool projectileClashLoaded = false;
         bool musicLoaded = false;
         bool enemyShootLoaded = false;
         bool playerHitLoaded = false;
