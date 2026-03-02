@@ -30,6 +30,7 @@ void PlayScene::enter() {
     enemySpawnCooldown = baseEnemySpawnCooldown;
     currentLevel = 1;
     killsThisLevel = 0;
+    totalKills = 0;
     killsRequired = baseKillsRequired;
 
     player.reset();
@@ -109,13 +110,16 @@ void PlayScene::update(float dt) {
             if (overlaps(pr, er)) {
                 projectiles[i]->setActive(false);
                 enemies[j]->setActive(false);
+                AudioManager::instance().playEnemyHit();
                 killsThisLevel++;
+                totalKills++;
                 if (killsThisLevel >= killsRequired) {
                     currentLevel++;
                     killsThisLevel = 0;
                     killsRequired += 10;
+                    AudioManager::instance().playLevelUp();
 
-                    enemySpawnCooldown = 0.05f;
+                    enemySpawnCooldown -= 0.05f;
                     if (enemySpawnCooldown < 0.25f) enemySpawnCooldown = 0.25f;
                 }
                 break;
@@ -132,17 +136,40 @@ void PlayScene::update(float dt) {
         if (overlaps(pr, playerRect)) {
             projectiles[i]->setActive(false);
             player.onHit();
+            AudioManager::instance().playPlayerHit();
 
             if (player.getHP() <= 0) {
                 isGameOver = true;
                 SDL_Log("Game Over");
-
+                AudioManager::instance().playGameOver();
+                AudioManager::instance().stopMusic();
                 static CreditScene creditScene;
                 Engine::instance().setScene(&creditScene);
                 return;
             }
         }
 
+    }
+    for (size_t i = 0; i < enemies.size(); i++) {
+        if (!enemies[i]->isActive()) continue;
+
+        const SDL_FRect& er = enemies[i]->getRect();
+
+        if (overlaps(er, playerRect)) {
+            enemies[i]->setActive(false);
+            player.onHit();
+            AudioManager::instance().playPlayerHit();
+
+            if (player.getHP() <= 0) {
+                isGameOver = true;
+                SDL_Log("Game Over");
+                AudioManager::instance().playGameOver();
+                AudioManager::instance().stopMusic();
+                static CreditScene creditScene;
+                Engine::instance().setScene(&creditScene);
+                return;
+            }
+        }
     }
     
     //no i++ in loop because we only increment when we don't erase
@@ -233,7 +260,7 @@ void PlayScene::render(SDL_Renderer* renderer) {
             this->objects[i]->render(renderer);
         }
     }
-    std::string hud = "LEVEL " + std::to_string(currentLevel);
+    std::string hud = "LEVEL " + std::to_string(currentLevel) + "   KILLS " + std::to_string(totalKills);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDebugText(renderer, 10.0f, 10.0f, hud.c_str());
 

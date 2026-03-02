@@ -22,7 +22,7 @@ class Player : public GameObject {
         void reset();
     private:
         SDL_Texture* texture = nullptr;
-        float speed = 500.0f;
+        float speed = 450.0f;
         int lives = 3;
         float hitFlashTimer = 0.0f;
         float hitFlashDuration = 0.15f;

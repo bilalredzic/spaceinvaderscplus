@@ -46,6 +46,8 @@ class PlayScene : public Scene {
         float enemyProjectileSpeedPerLevel = 35.0f;
         void spawnEnemyProjectile(Enemy* e);
         bool isGameOver = false;
+        int totalKills = 0;
+
 
         SDL_Texture* backgroundTexture = nullptr;
 

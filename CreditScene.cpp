@@ -17,9 +17,23 @@ void CreditScene::handleInput() {
 void CreditScene::update(float) {}
 // Draw credits screen contents here.
 void CreditScene::render(SDL_Renderer* renderer) {
+    std::string gameOver = "GAME OVER";
+    std::string prompt = "PRESS R TO RETURN TO TITLE";
+
+    float scale = 2.0f;
+
+    float gameOverWidth = gameOver.size() * 8.0f * scale;
+    float promptWidth = prompt.size() * 8.0f * scale;
+
+    float gameOverX = (800.0f - gameOverWidth) * 0.5f;
+    float promptX = (800.0f - promptWidth) * 0.5f;
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDebugText(renderer, 320.0f, 260.0f, "GAME OVER");
-    SDL_RenderDebugText(renderer, 220.0f, 300.0f, "PRESS R TO RETURN TO TITLE");
+
+    SDL_SetRenderScale(renderer, scale, scale);
+    SDL_RenderDebugText(renderer, gameOverX / scale, 180.0f / scale, gameOver.c_str());
+    SDL_RenderDebugText(renderer, promptX / scale, 280.0f / scale, prompt.c_str());
+    SDL_SetRenderScale(renderer, 1.0f, 1.0f);
 }
 // Release credits-specific state/resources here.
 void CreditScene::exit() {}

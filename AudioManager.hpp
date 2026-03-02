@@ -34,6 +34,11 @@ class AudioManager {
         bool loadGameOverSound(const char* filepath);
         void playGameOver();
 
+        bool loadMusic(const char* filepath);
+        void playMusic();
+
+        void stopMusic();
+
 
     private:
         AudioManager() = default;
@@ -42,8 +47,17 @@ class AudioManager {
         ma_engine engine;
         ma_sound shootSound;
         ma_sound enemyShootSound;
+        ma_sound playerHitSound;
+        ma_sound enemyHitSound;
+        ma_sound levelUpSound;
+        ma_sound gameOverSound;
+        ma_sound music;
+        bool musicLoaded = false;
         bool enemyShootLoaded = false;
-
+        bool playerHitLoaded = false;
+        bool enemyHitLoaded = false;
+        bool levelUpLoaded = false;
+        bool gameOverLoaded = false;
         bool initialized = false;
         bool shootLoaded = false;
 };

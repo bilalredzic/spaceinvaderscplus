@@ -76,6 +76,13 @@ bool Engine::init() {
 	AudioManager::instance().init();
 	AudioManager::instance().loadShootSound("assets/playerlaser.wav");
 	AudioManager::instance().loadEnemyShootSound("assets/enemylaser.wav");
+	AudioManager::instance().loadPlayerHitSound("assets/playerhit.wav");
+	AudioManager::instance().loadEnemyHitSound("assets/enemyhit.wav");
+	AudioManager::instance().loadLevelUpSound("assets/levelup.wav");
+	AudioManager::instance().loadGameOverSound("assets/gameover.wav");
+	AudioManager::instance().loadMusic("assets/backgroundmusic.wav");
+	AudioManager::instance().playMusic();
+
 
 
 	SDL_SetRenderVSync(renderer, 0);
