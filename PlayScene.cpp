@@ -3,6 +3,9 @@
 #include "CreditScene.hpp"
 
 #include <SDL3/SDL_keyboard.h>
+#include <SDL3_image/SDL_image.h>
+#include "AudioManager.hpp"
+
 
 #include <random>
 
@@ -16,27 +19,41 @@ static bool overlaps(const SDL_FRect& a, const SDL_FRect& b) {
 
 // Initialize gameplay state/resources here.
 void PlayScene::enter() {
+    exit();
+
+    Projectile::loadSharedTextures(Engine::instance().getRenderer());
+    Enemy::loadSharedTexture(Engine::instance().getRenderer());
+
+    isGameOver = false;
+    shootTimer = shootCooldown;
+    enemySpawnTimer = 0.0f;
+    enemySpawnCooldown = baseEnemySpawnCooldown;
+    currentLevel = 1;
+    killsThisLevel = 0;
+    killsRequired = baseKillsRequired;
+
+    player.reset();
     player.setPosition(100.0f, 500.0f);
-    player.setSize(60.0f, 20.0f);
+    player.setSize(50.0f, 40.0f);
     this->objects.push_back(&player);
+    if (backgroundTexture == nullptr) {
+    SDL_Surface* surface = IMG_Load("assets/background.png");
+    if (!surface) {
+        SDL_Log("IMG_Load failed for background.png: %s", SDL_GetError());
+    } else {
+        backgroundTexture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surface);
+        SDL_DestroySurface(surface);
+
+        if (!backgroundTexture) {
+            SDL_Log("SDL_CreateTextureFromSurface failed for background.png: %s", SDL_GetError());
+        }
+    }
+}
 };
 // Read keys/buttons that belong to gameplay.
 void PlayScene::handleInput() {
     const float dt = targetFrameTime/1000.0f; // ms-> seconds
     const bool* keys = Engine::keyState;
-
-    if (isGameOver) {
-        if (keys[SDL_SCANCODE_R]) {
-            exit();
-            isGameOver = false;
-            shootTimer = 0.0f;
-            enemySpawnTimer = 0.0f;
-            currentLevel = 1;
-            player = Player();
-            enter();
-        }
-        return;
-    }
 
     if (keys[SDL_SCANCODE_SPACE] && shootTimer <=0.0f) {
         Projectile* p = new Projectile();
@@ -48,6 +65,8 @@ void PlayScene::handleInput() {
 
         projectiles.push_back(p);
         objects.push_back(p);
+        AudioManager::instance().playShoot();
+
             
         shootTimer = shootCooldown;
         }
@@ -205,6 +224,10 @@ void PlayScene::update(float dt) {
 
 // Draw gameplay objects here.
 void PlayScene::render(SDL_Renderer* renderer) {
+    if (backgroundTexture != nullptr) {
+        SDL_FRect bgRect{0.0f, 0.0f, 800.0f, 600.0f};
+        SDL_RenderTexture(renderer, backgroundTexture, nullptr, &bgRect);
+    }
     for (size_t i = 0; i < this->objects.size(); i++) {
         if (this->objects[i]->isActive()) {
             this->objects[i]->render(renderer);
@@ -255,4 +278,6 @@ void PlayScene::spawnEnemyProjectile(Enemy* e) {
 
     projectiles.push_back(p);
     objects.push_back(p);
+
+    AudioManager::instance().playEnemyShoot();
 }

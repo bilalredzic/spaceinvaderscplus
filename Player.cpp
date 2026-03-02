@@ -1,11 +1,25 @@
 #include "Player.hpp"
 #include "Engine.hpp"
 
+#include <SDL3_image/SDL_image.h>
+
 Player::Player()
 {
-    // auto* spriteComponent = addComponent<SpriteComponent>();
-    // spriteComponent->loadSprite(Engine::instance().getRenderer(), "sprite.png");
-    // rect = spriteComponent->getRect();
+    SDL_Surface* surface = IMG_Load("assets/player.png");
+    if (!surface) {
+        SDL_Log("IMG_Load failed for player.png: %s", SDL_GetError());
+        return;
+    }
+
+    texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surface);
+    SDL_DestroySurface(surface);
+
+    if (!texture) {
+        SDL_Log("SDL_CreateTextureFromSurface failed for player.png: %s", SDL_GetError());
+        return;
+    }
+
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
 
 void Player::update(float dt)
@@ -25,13 +39,26 @@ void Player::update(float dt)
 void Player::render(SDL_Renderer* renderer) {
     const SDL_FRect& r = getRect();
 
+    if (texture != nullptr) {
+        if (hitFlashTimer > 0.0f) {
+            SDL_SetTextureColorMod(texture, 255, 80, 80);
+        } else {
+            SDL_SetTextureColorMod(texture, 255, 255, 255);
+        }
+        SDL_SetTextureAlphaMod(texture, 255);
+
+        SDL_RenderTexture(renderer, texture, nullptr, &r);
+        return;
+    }
+
     if (hitFlashTimer > 0.0f) {
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     } else {
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     }
     
-    SDL_RenderFillRect(renderer, &r);
+    SDL_RenderTexture(renderer, texture, nullptr, &r);
+
 };
 
 void Player::moveLeft(float dt) {
@@ -89,4 +116,16 @@ void Player::loseLife()
 void Player::onHit() {
     loseLife();
     hitFlashTimer = hitFlashDuration;
+}
+
+Player::~Player() {
+    if (texture != nullptr) {
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
+}
+
+void Player::reset() {
+    lives = 3;
+    hitFlashTimer = 0.0f;
 }

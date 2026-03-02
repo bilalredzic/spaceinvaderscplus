@@ -31,18 +31,23 @@ class PlayScene : public Scene {
         std::vector<Enemy*> enemies;
         Player player;
         float shootCooldown = 0.12f;
+        float baseEnemySpawnCooldown = 0.8f;
+        int baseKillsRequired = 15;
+
         float shootTimer = 0.0f;
         float enemySpawnCooldown = 0.8f;
         float enemySpawnTimer = 0.0f;
         float enemyShootCooldown = 0.7f;
         float enemyShootTimer = 0.0f;
         int currentLevel = 1;
-        int killsThisLevel;
+        int killsThisLevel = 0;
         int killsRequired = 15;
         float enemyProjectileBaseSpeed = 300.0f;
         float enemyProjectileSpeedPerLevel = 35.0f;
         void spawnEnemyProjectile(Enemy* e);
         bool isGameOver = false;
+
+        SDL_Texture* backgroundTexture = nullptr;
 
 
 };

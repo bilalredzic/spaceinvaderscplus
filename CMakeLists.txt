@@ -11,6 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 # Build SDL from the local SDL folder in this repo.
 add_subdirectory(SDL EXCLUDE_FROM_ALL)
+add_subdirectory(SDL_image EXCLUDE_FROM_ALL)
 
 
 # Main game executable.
@@ -25,7 +26,8 @@ add_executable(spaceinvaders WIN32
     GameObject.cpp
     Projectile.cpp
     Enemy.cpp
+    AudioManager.cpp
 )
 
 # Link SDL3 to the game.
-target_link_libraries(spaceinvaders PRIVATE SDL3::SDL3)
+target_link_libraries(spaceinvaders PRIVATE SDL3::SDL3 SDL3_image::SDL3_image)

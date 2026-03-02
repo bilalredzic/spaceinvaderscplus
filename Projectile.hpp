@@ -19,12 +19,19 @@ class Projectile : public GameObject {
         void setSpeed(float s);
         void setType(ProjectileType t);
         ProjectileType getType() const;
+        static void loadSharedTextures(SDL_Renderer* renderer);
+        static void unloadSharedTextures();
+
         
 
     private:
         float speed = 500.0f;
         float dirY = -1.0f;
         ProjectileType type = ProjectileType::PlayerBasic;
+        SDL_Texture* texture = nullptr;
+        static SDL_Texture* playerTexture;
+        static SDL_Texture* enemyTexture;
+
 
 };
 

@@ -1,5 +1,9 @@
 #include "Engine.hpp"
 #include "Scene.hpp"
+#include "Projectile.hpp"
+#include "Enemy.hpp"
+#include "AudioManager.hpp"
+
 
 #include <SDL3/SDL.h>
 // Want to share these.  Easiest (and quick) way
@@ -69,6 +73,10 @@ bool Engine::init() {
 		SDL_Quit();
 		return false;
 	}
+	AudioManager::instance().init();
+	AudioManager::instance().loadShootSound("assets/playerlaser.wav");
+	AudioManager::instance().loadEnemyShootSound("assets/enemylaser.wav");
+
 
 	SDL_SetRenderVSync(renderer, 0);
 
@@ -78,5 +86,10 @@ bool Engine::init() {
 void Engine::shutdown() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	Projectile::unloadSharedTextures();
+	Enemy::unloadSharedTexture();
+	AudioManager::instance().shutdown();
+
+
 	SDL_Quit();
 }

@@ -6,7 +6,7 @@
 
 class Player : public GameObject {
     public:
-        ~Player() override = default;
+        ~Player() override;
         Player();
 
         void update(float dt) override;
@@ -19,8 +19,9 @@ class Player : public GameObject {
         int getHP();
         void loseLife();
         void onHit();
+        void reset();
     private:
-        SDL_FRect* rect;
+        SDL_Texture* texture = nullptr;
         float speed = 500.0f;
         int lives = 3;
         float hitFlashTimer = 0.0f;

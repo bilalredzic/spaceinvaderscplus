@@ -16,10 +16,15 @@ class Enemy : public GameObject {
         void setShootCooldown(float cooldown);
         void setInitialShootTimer(float t);
         void setSpeed(float s);
+        static void loadSharedTexture(SDL_Renderer* renderer);
+        static void unloadSharedTexture();
+
     private:
         float speed = 175.0f;
         float shootCooldown = 2.5f;
         float shootTimer = 0.0f;
+        static SDL_Texture* enemyTexture;
+
 
 
 
