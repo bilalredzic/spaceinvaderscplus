@@ -159,6 +159,27 @@ void PlayScene::update(float dt) {
             }
         }
 
+    // Check player projectiles against enemy projectiles so bullets can cancel each other out
+    for (size_t i = 0; i < projectiles.size(); i++) {
+        if (!projectiles[i]->isActive()) continue;
+        if (projectiles[i]->getType() != ProjectileType::PlayerBasic) continue;
+
+        const SDL_FRect& playerProjRect = projectiles[i]->getRect();
+
+        for (size_t j = 0; j < projectiles.size(); j++) {
+            if (!projectiles[j]->isActive()) continue;
+            if (projectiles[j]->getType() != ProjectileType::EnemyBasic) continue;
+
+            const SDL_FRect& enemyProjRect = projectiles[j]->getRect();
+
+            if (overlaps(playerProjRect, enemyProjRect)) {
+                projectiles[i]->setActive(false);
+                projectiles[j]->setActive(false);
+                break;
+            }
+        }
+    }
+
     }
     // Check direct ship collisions so enemies damage the player on contact as well.
     for (size_t i = 0; i < enemies.size(); i++) {
