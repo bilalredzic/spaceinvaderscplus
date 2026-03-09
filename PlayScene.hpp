@@ -38,17 +38,21 @@ class PlayScene : public Scene {
         float baseEnemySpawnCooldown = 0.8f;
         int baseKillsRequired = 15;
 
+        float playerSpawnX = 100.0f;
+        float playerSpawnY = 500.0f;
+        float enemySpawnY = -20.0f;
+
         // Runtime timers and progression state that change during gameplay.
         float shootTimer = 0.0f;
         float enemySpawnCooldown = 0.8f;
         float enemySpawnTimer = 0.0f;
-        float enemyShootCooldown = 0.7f;
-        float enemyShootTimer = 0.0f;
         int currentLevel = 1;
         int killsThisLevel = 0;
         int killsRequired = 15;
         float enemyProjectileBaseSpeed = 300.0f;
         float enemyProjectileSpeedPerLevel = 35.0f;
+        float baseEnemyMoveSpeed = 220.0f;
+        float enemyMoveSpeedPerLevel = 20.0f;
 
         // Helper for spawning one enemy projectile from a specific enemy ship.
         void spawnEnemyProjectile(Enemy* e);

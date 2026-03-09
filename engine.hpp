@@ -2,11 +2,7 @@
 #define			__HPP_ENGINE__
 
 #include <SDL3/SDL.h>
-#include <vector>
 
-#define FPS 60
-#define MAX_EVENTS 128
-#define targetFrameTime 1000.0 / FPS
 
 class Scene;
 

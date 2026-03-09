@@ -25,6 +25,9 @@ void Enemy::render(SDL_Renderer* renderer) {
         SDL_RenderTexture(renderer, enemyTexture, nullptr, &r);
         return;
     }
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &r);
 };
 
 bool Enemy::canShoot(float dt) {
@@ -35,10 +38,6 @@ bool Enemy::canShoot(float dt) {
         return true;
     }
     return false;
-}
-
-void Enemy::setShootCooldown(float cooldown) {
-    shootCooldown = cooldown;
 }
 
 void Enemy::setInitialShootTimer(float t) {

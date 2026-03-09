@@ -24,14 +24,19 @@ class Projectile : public GameObject {
         static void loadSharedTextures(SDL_Renderer* renderer);
         static void unloadSharedTextures();
 
+        static constexpr float baseSpeed = 500.0f;
+        static constexpr float basePlayerWidth = 6.0f;
+        static constexpr float basePlayerHeight = 14.0f;
+        static constexpr float baseEnemyWidth = 6.0f;
+        static constexpr float baseEnemyHeight = 14.0f;
+
         
 
     private:
         // Per-projectile movement/type state plus shared textures for each bullet style.
-        float speed = 500.0f;
+        float speed = baseSpeed;
         float dirY = -1.0f;
         ProjectileType type = ProjectileType::PlayerBasic;
-        SDL_Texture* texture = nullptr;
         static SDL_Texture* playerTexture;
         static SDL_Texture* enemyTexture;
 

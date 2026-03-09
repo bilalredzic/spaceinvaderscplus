@@ -28,14 +28,16 @@ void Engine::setScene(Scene *scene) {
 void Engine::run() {
 	running = true;
 	// Track when the previous frame started so we can compute real delta time.
-	Uint64 lastFrameTime = SDL_GetTicks();
+	Uint64 lastFrameTime = SDL_GetPerformanceCounter(); //hardware level ticks, better than ticks
+	Uint64 performanceFrequency = SDL_GetPerformanceFrequency();
 	while (running) {
 		// Measure how much real time passed since the previous frame.
-		Uint64 currentFrameTime = SDL_GetTicks();
+		Uint64 currentFrameTime = SDL_GetPerformanceCounter();
 		// Convert elapsed milliseconds into seconds as a float for movement/update math.
-		float dt = static_cast<float>(currentFrameTime - lastFrameTime) / 1000.0f;
+		float dt = static_cast<float>(currentFrameTime - lastFrameTime) / performanceFrequency;
 		// Store this frame time so the next loop can measure against it.
 		lastFrameTime = currentFrameTime;
+		if (dt > 0.033f) dt = 0.033f; // cap dt to maximum of 0.033 seconds, rougly one fram at 30 fps.
 		// Snapshot current keyboard state before handing input to the active scene.
 		Engine::keyState = SDL_GetKeyboardState(nullptr);
         SDL_Event event;
@@ -56,9 +58,6 @@ void Engine::run() {
 			scene->render(renderer);
 		}
 		SDL_RenderPresent(renderer);
-		// // Naive delay that doesn't take into account
-		// // how long the loop ran.
-		// SDL_Delay(targetFrameTime);
     }
 }
 

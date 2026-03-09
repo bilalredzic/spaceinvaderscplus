@@ -62,7 +62,7 @@ void Player::render(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     }
     
-    SDL_RenderTexture(renderer, texture, nullptr, &r);
+    SDL_RenderFillRect(renderer, &r);
 
 };
 
@@ -138,6 +138,6 @@ Player::~Player() {
 
 void Player::reset() {
     // Restore the player to a fresh state for a new run.
-    lives = 3;
+    lives = baseLives;
     hitFlashTimer = 0.0f;
 }

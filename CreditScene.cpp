@@ -2,6 +2,7 @@
 #include "Engine.hpp"
 #include "TitleScene.hpp"
 #include <SDL3/SDL_keyboard.h>
+#include <string>
 
 // Initialize credits-specific state/resources here.
 void CreditScene::enter() {}

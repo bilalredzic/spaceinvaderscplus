@@ -38,8 +38,8 @@ void PlayScene::enter() {
 
     // Restore the player to a clean state and add it back into the scene.
     player.reset();
-    player.setPosition(100.0f, 500.0f);
-    player.setSize(50.0f, 40.0f);
+    player.setPosition(playerSpawnX, playerSpawnY);
+    player.setSize(Player::baseWidth, Player::baseHeight);
     this->objects.push_back(&player);
     // Load the background once and reuse it across later scene entries.
     if (backgroundTexture == nullptr) {
@@ -58,7 +58,6 @@ void PlayScene::enter() {
 };
 // Read keys/buttons that belong to gameplay.
 void PlayScene::handleInput() {
-    const float dt = targetFrameTime/1000.0f; // ms-> seconds
     const bool* keys = Engine::keyState;
 
     // Fire a player projectile when space is pressed and the shot cooldown is ready.
@@ -67,8 +66,8 @@ void PlayScene::handleInput() {
         p->setDirection(-1.0f);
         p->setType(ProjectileType::PlayerBasic);
         const SDL_FRect& pr = player.getRect();
-        p->setSize(6.0f, 14.0f);
-        p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
+        p->setSize(Projectile::basePlayerWidth, Projectile::basePlayerHeight);
+        p->setPosition(pr.x + (pr.w * 0.5f) - (Projectile::basePlayerWidth * 0.5f), pr.y - Projectile::basePlayerHeight);
 
         projectiles.push_back(p);
         objects.push_back(p);
@@ -79,18 +78,6 @@ void PlayScene::handleInput() {
         }
     
 
-    // for (size_t i = 0; i< Engine::keyEvents.size(); i++) {
-    //     if (Engine::keyEvents[i].key.key == SDLK_SPACE) {
-    //         Projectile* p = new Projectile();
-            
-    //         const SDL_FRect& pr = player.getRect();
-    //         p->setSize(6.0f, 14.0f);
-    //         p->setPosition(pr.x + (pr.w*0.5f) - 3.0f, pr.y - 14.0f);
-
-    //         projectiles.push_back(p);
-    //         objects.push_back(p);
-    //     }
-    // }
 };
 // Update gameplay logic here.
 void PlayScene::update(float dt) {
@@ -137,29 +124,7 @@ void PlayScene::update(float dt) {
     }
 
     const SDL_FRect& playerRect = player.getRect();
-    // Check enemy projectiles against the player and trigger game over when lives run out.
-    for (size_t i = 0; i<projectiles.size(); i++) {
-        if (!projectiles[i]->isActive()) continue;
-        if (projectiles[i]->getType() != ProjectileType::EnemyBasic) continue;
-
-        const SDL_FRect& pr = projectiles[i]->getRect();
-        if (overlaps(pr, playerRect)) {
-            projectiles[i]->setActive(false);
-            player.onHit();
-            AudioManager::instance().playPlayerHit();
-
-            if (player.getHP() <= 0) {
-                isGameOver = true;
-                SDL_Log("Game Over");
-                AudioManager::instance().playGameOver();
-                AudioManager::instance().stopMusic();
-                static CreditScene creditScene;
-                Engine::instance().setScene(&creditScene);
-                return;
-            }
-        }
-
-    // Check player projectiles against enemy projectiles so bullets can cancel each other out
+    // Check player projectiles against enemy projectiles so bullets can cancel each other out.
     for (size_t i = 0; i < projectiles.size(); i++) {
         if (!projectiles[i]->isActive()) continue;
         if (projectiles[i]->getType() != ProjectileType::PlayerBasic) continue;
@@ -181,6 +146,27 @@ void PlayScene::update(float dt) {
         }
     }
 
+    // Check enemy projectiles against the player and trigger game over when lives run out.
+    for (size_t i = 0; i<projectiles.size(); i++) {
+        if (!projectiles[i]->isActive()) continue;
+        if (projectiles[i]->getType() != ProjectileType::EnemyBasic) continue;
+
+        const SDL_FRect& pr = projectiles[i]->getRect();
+        if (overlaps(pr, playerRect)) {
+            projectiles[i]->setActive(false);
+            player.onHit();
+            AudioManager::instance().playPlayerHit();
+
+            if (player.getHP() <= 0) {
+                isGameOver = true;
+                SDL_Log("Game Over");
+                AudioManager::instance().playGameOver();
+                AudioManager::instance().stopMusic();
+                static CreditScene creditScene;
+                Engine::instance().setScene(&creditScene);
+                return;
+            }
+        }
     }
     // Check direct ship collisions so enemies damage the player on contact as well.
     for (size_t i = 0; i < enemies.size(); i++) {
@@ -249,23 +235,18 @@ void PlayScene::update(float dt) {
     // Spawn a new enemy once the scene's spawn cooldown expires.
     if (enemySpawnTimer <= 0.0f) {
         static std::mt19937 rng(std::random_device{}());
-        float enemyW = 40.0f;
-        float enemyH = 20.0f;
-        float spawnY = -enemyH;
 
-        std::uniform_real_distribution<float> xDist(0.0f, 800.0f - enemyW);
+        std::uniform_real_distribution<float> xDist(0.0f, 800.0f - Enemy::baseWidth);
         float spawnX = xDist(rng);
 
         Enemy* e = new Enemy();
-        float enemyMoveSpeed = 220.0f + 20.0f*(currentLevel - 1);
+        float enemyMoveSpeed = baseEnemyMoveSpeed + enemyMoveSpeedPerLevel * (currentLevel - 1);
         e->setSpeed(enemyMoveSpeed);
 
-        e->setSize(enemyW, enemyH);
-        e->setPosition(spawnX, spawnY);
+        e->setSize(Enemy::baseWidth, Enemy::baseHeight);
+        e->setPosition(spawnX, enemySpawnY);
 
-        e->setShootCooldown(1.2f);
-        std::uniform_real_distribution<float> initialShot(0.0f, 2.5f);
-        e->setInitialShootTimer(initialShot(rng));
+        e->setInitialShootTimer(Enemy::baseInitialShootTimer);
 
         enemies.push_back(e);
         objects.push_back(e);
@@ -344,8 +325,8 @@ void PlayScene::spawnEnemyProjectile(Enemy* e) {
     p->setSpeed(levelSpeed);
 
     const SDL_FRect& er = e->getRect();
-    p->setSize(6.0f, 14.0f);
-    p->setPosition(er.x + (er.w * 0.5f) - 3.0f, er.y + er.h);
+    p->setSize(Projectile::baseEnemyWidth, Projectile::baseEnemyHeight);
+    p->setPosition(er.x + (er.w * 0.5f) - (Projectile::baseEnemyWidth * 0.5f), er.y + er.h);
 
     projectiles.push_back(p);
     objects.push_back(p);

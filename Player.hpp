@@ -21,11 +21,16 @@ class Player : public GameObject {
         void loseLife();
         void onHit();
         void reset();
+
+        static constexpr float baseWidth = 50.0f;
+        static constexpr float baseHeight = 40.0f;
+        static constexpr float baseSpeed = 450.0f;
     private:
         // Sprite, movement, and life-flash state for the player ship.
         SDL_Texture* texture = nullptr;
-        float speed = 450.0f;
-        int lives = 3;
+        float speed = baseSpeed;
+        int baseLives = 3;
+        int lives = baseLives;
         float hitFlashTimer = 0.0f;
         float hitFlashDuration = 0.15f;
 
